@@ -1,21 +1,20 @@
 package handlers
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
+	"final4/config"
+	"final4/models"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"final4/config"
-	"final4/models"
-
 	"github.com/joho/godotenv"
-
 	"go.mongodb.org/mongo-driver/bson"
+	"google.golang.org/genai"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -29,40 +28,31 @@ func CallGeminiAI(history string) (string, error) {
 		log.Fatal("API Key is missing!")
 	}
 
-	url := fmt.Sprintf(
-		"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=%s",
-		apiKey,
-	)
+	ctx := context.Background()
+	client, err := genai.NewClient(ctx, &genai.ClientConfig{APIKey: apiKey})
+	if err != nil {
+		return "", err
+	}
 
 	prompt := fmt.Sprintf(`
-You are a recommendation system for a food store.
-Based on this purchase history, recommend 3 products user might buy next.
+You are a recommendation system for a bakery food store which sells products as pastry, cake, bread, dessert etc.
+Based on this users order history, recommend 3 products user might buy next or buy again(products which user buy usually). 
+Write names of these products and why you decided that without symbold like * # etc.
 User data:
 %s
 `, history)
 
-	body := map[string]interface{}{
-		"contents": []map[string]interface{}{
-			{
-				"parts": []map[string]string{
-					{"text": prompt},
-				},
-			},
-		},
-	}
-
-	jsonBody, _ := json.Marshal(body)
-
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonBody))
+	result, err := client.Models.GenerateContent(
+		ctx,
+		"gemini-3-flash-preview",
+		genai.Text(prompt),
+		nil,
+	)
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
 
-	var result map[string]interface{}
-	json.NewDecoder(resp.Body).Decode(&result)
-
-	return fmt.Sprintf("%v", result), nil
+	return result.Text(), nil
 }
 
 func GetRecommendations(w http.ResponseWriter, r *http.Request) {
@@ -84,7 +74,7 @@ func GetRecommendations(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]interface{}{
 			"mode":  "default",
-			"items": []string{},
+			"items": []string{"Strawberry Cake", "Macarons Box", "Donuts"},
 		})
 		return
 	}
