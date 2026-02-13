@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bakery Store</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header id="appHeader" class="header"></header>
+
+    <main class="container">
+      <section class="hero">
+        <div>
+          <div class="hero-eyebrow">Freshly baked every day</div>
+          <h1 class="hero-title">Bakery Store</h1>
+          <p class="hero-sub">Croissants, breads, cakes — made with love 🥐</p>
+          <a class="btn btn-primary" href="#shop">Shop now</a>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top:18px">
+        <h2>Recommendations</h2>
+        <p class="muted" id="recInfo">Based on your order history.</p>
+        <div id="recommendations" class="grid"></div>
+      </section>
+
+      <section class="card" id="shop">
+        <div class="row row-gap" style="justify-content:space-between">
+          <h2 style="margin:0">Bakery products</h2>
+          <div class="row row-gap" style="justify-content:flex-end;flex-wrap:wrap">
+            <input id="searchInput" class="input" placeholder="Search pastries..." />
+            <select id="categorySelect" class="input">
+              <option value="">All categories</option>
+              <option value="Pastry">Pastry</option>
+              <option value="Bread">Bread</option>
+              <option value="Cake">Cake</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <select id="sortSelect" class="input">
+              <option value="">No sort</option>
+              <option value="price_asc">Price: low → high</option>
+              <option value="price_desc">Price: high → low</option>
+              <option value="newest">Newest</option>
+            </select>
+            <button id="applyBtn" class="btn">Apply</button>
+          </div>
+        </div>
+
+        <div class="shop-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">Categories</h3>
+            <ul class="cat-list" id="catList">
+              <li data-cat="" class="active">All</li>
+              <li data-cat="Pastry">Pastry</li>
+              <li data-cat="Bread">Bread</li>
+              <li data-cat="Cake">Cake</li>
+              <li data-cat="Dessert">Dessert</li>
+            </ul>
+
+
+            <div class="hr" style="margin:16px 0"></div>
+
+            <h3 class="sidebar-title">Top products</h3>
+            <div id="topProducts" class="top-products"></div>
+          </aside>
+
+          <div id="products" class="shop-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container row" style="justify-content:space-between">
+        <span class="muted">Bakery Store</span>
+        <a class="btn" href="/login" id="footerLoginBtn">Login</a>
+      </div>
+    </footer>
+
+    <script src="/static/ui.js"></script>
+    <script src="/static/home.js"></script>
+  </body>
+</html>

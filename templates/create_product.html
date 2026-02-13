@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Product</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header id="appHeader" class="header"></header>
+
+    <main class="container">
+      <section class="card" style="max-width:680px;margin:24px auto">
+        <h2>Create Product</h2>
+        <div class="stack">
+          <input id="name" class="input" placeholder="Name" />
+          <input id="category" class="input" placeholder="Category (e.g., dairy, meat...)" />
+          <input id="imageUrl" class="input" placeholder="Image URL" />
+          <input id="price" type="number" step="0.01" class="input" placeholder="Price" />
+          <input id="stock" type="number" class="input" placeholder="Stock" />
+          <input id="ingredients" type="input" class="input" placeholder="ingredients" />
+          <button class="btn" onclick="createProduct()">Create</button>
+          <p class="muted" id="createInfo"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container row" style="justify-content:space-between">
+        <span class="muted">Bakery Store</span>
+        <a class="btn" href="/login" id="footerLoginBtn">Login</a>
+      </div>
+    </footer>
+
+    <script src="/static/ui.js"></script>
+    <script src="/static/products_admin.js"></script>
+  </body>
+</html>

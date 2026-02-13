@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header id="appHeader" class="header"></header>
+
+    <main class="container">
+      <section class="card" style="max-width:520px;margin:24px auto">
+        <h2>Register</h2>
+        <div class="stack">
+          <input id="name" class="input" placeholder="Name" />
+          <input id="email" class="input" placeholder="Email" />
+          <input id="password" type="password" class="input" placeholder="Password" />
+          <button class="btn" onclick="register()">Create account</button>
+          <p class="muted" id="registerError"></p>
+          <p class="muted">Already have an account? <a href="/login">Login</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container row" style="justify-content:space-between">
+        <span class="muted">Bakery Store</span>
+        <a class="btn" href="/login" id="footerLoginBtn">Login</a>
+      </div>
+    </footer>
+
+    <script src="/static/ui.js"></script>
+    <script src="/static/auth.js"></script>
+  </body>
+</html>

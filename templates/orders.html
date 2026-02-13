@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header id="appHeader" class="header"></header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Orders</h2>
+        <p class="muted">Cancel is available only within 24 hours after purchase.</p>
+        <div id="orders" class="stack"></div>
+        <p class="muted" id="ordersInfo"></p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container row" style="justify-content:space-between">
+        <span class="muted">Bakery Store</span>
+        <a class="btn" href="/login" id="footerLoginBtn">Login</a>
+      </div>
+    </footer>
+
+    <script src="/static/ui.js"></script>
+    <script src="/static/orders.js"></script>
+  </body>
+</html>
