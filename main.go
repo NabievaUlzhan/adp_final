@@ -46,18 +46,14 @@ func seedProductsIfEmpty() {
 }
 
 func main() {
-	// 1) Mongo
 	config.ConnectMongo()
-	config.SeedDemoUsers() // admin@store.com / 1234, user@store.com / 1234
-	seedProductsIfEmpty()  // demo products if empty
+	config.SeedDemoUsers()
+	seedProductsIfEmpty()
 
-	// 2) Router
 	r := mux.NewRouter()
 
-	// Static files
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
-	// Pages (HTML)
 	r.HandleFunc("/", serveTemplate("index.html")).Methods("GET")
 	r.HandleFunc("/login", serveTemplate("login.html")).Methods("GET")
 	r.HandleFunc("/register", serveTemplate("register.html")).Methods("GET")
@@ -66,33 +62,25 @@ func main() {
 	r.HandleFunc("/create-product", serveTemplate("create_product.html")).Methods("GET")
 	r.HandleFunc("/update-product", serveTemplate("update_product.html")).Methods("GET")
 
-	// API (JSON)
-	// AUTH
 	r.HandleFunc("/api/login", handlers.Login).Methods("POST")
 	r.HandleFunc("/api/register", handlers.Register).Methods("POST")
 
-	// PRODUCTS
 	r.HandleFunc("/api/products", handlers.GetProducts).Methods("GET")
 	r.HandleFunc("/api/products", middleware.AdminOnly(handlers.CreateProduct)).Methods("POST")
 	r.HandleFunc("/api/products/{id}", middleware.AdminOnly(handlers.UpdateProduct)).Methods("PUT")
 	r.HandleFunc("/api/products/{id}", middleware.AdminOnly(handlers.DeleteProduct)).Methods("DELETE")
 
-	// CART
 	r.HandleFunc("/api/cart", middleware.CustomerOnly(handlers.GetCart)).Methods("GET")
 	r.HandleFunc("/api/cart/add", middleware.CustomerOnly(handlers.AddToCart)).Methods("POST")
 	r.HandleFunc("/api/cart/update/{id}", middleware.CustomerOnly(handlers.UpdateCartQuantity)).Methods("PUT")
 	r.HandleFunc("/api/cart/remove/{id}", middleware.CustomerOnly(handlers.RemoveFromCart)).Methods("DELETE")
 
-	// ORDERS
 	r.HandleFunc("/api/orders", middleware.CustomerOnly(handlers.CreateOrder)).Methods("POST")
 	r.HandleFunc("/api/orders", handlers.GetOrders).Methods("GET")
 	r.HandleFunc("/api/orders/{id}", middleware.CustomerOnly(handlers.CancelOrder)).Methods("DELETE")
 
-	// AI
 	r.HandleFunc("/api/recommendations", middleware.CustomerOnly(handlers.GetRecommendations)).Methods("GET")
 
-
-	// SMART FEATURES
 	r.HandleFunc("/api/smart-basket", middleware.CustomerOnly(handlers.WeeklySmartBasket)).Methods("GET")
 	r.HandleFunc("/api/predict-restock", middleware.CustomerOnly(handlers.PredictRestock)).Methods("GET")
 	r.HandleFunc("/api/anti-waste", handlers.AntiWasteMode).Methods("GET")
